@@ -4,9 +4,6 @@ const listData = ['item 1', 'item 2', 'item 3', 'item 4', 'item 5'];
 
 listData.forEach(item => list.append(item));
 
-console.log(list.toString());
-console.log(list.size);
-
 function newLinkedList() {
 	let head;
 
@@ -112,6 +109,61 @@ function newLinkedList() {
 		return str;
 	}
 
+	function insertAt(value, index) {
+		if (head === null) return;
+		if (index < 0) throw new Error('Index must be greater than or equal to zero');
+
+		let node = newNode(value);
+		let currentNode = head;
+		let previousNode = null;
+
+		if (index === 0) {
+			node.next = currentNode;
+			head = node;
+
+			return;
+		}
+
+		for (let i = 0; i <= index; i++) {
+			if (i === index) {
+				node.next = currentNode;
+				previousNode.next = node;
+
+				return;
+			}
+
+			if (currentNode === null) return;
+
+			previousNode = currentNode;
+			currentNode = currentNode.next;
+		}
+	}
+
+	function removeAt(index) {
+		if (head === null) return;
+		if (index < 0) throw new Error('Index must be greater than or equal to zero');
+
+		let currentNode = head;
+		let previousNode = null;
+
+		if (index === 0) {
+			head = currentNode.next;
+			return;
+		}
+
+		for (let i = 0; i <= index; i++) {
+			if (currentNode === null) return;
+
+			if (i === index) {
+				previousNode.next = currentNode.next;
+				return;
+			}
+
+			previousNode = currentNode;
+			currentNode = currentNode.next;
+		}
+	}
+
 	return {
 		append,
 		prepend,
@@ -120,6 +172,8 @@ function newLinkedList() {
 		contains,
 		find,
 		toString,
+		insertAt,
+		removeAt,
 
 		get size() {
 			if (head === undefined) return 0;
